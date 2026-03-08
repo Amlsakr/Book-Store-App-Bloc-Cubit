@@ -27,7 +27,7 @@ class AuthFormCubit extends Cubit<AuthFormState> {
         throw Exception(Strings.loginError);
       }
       emit(AuthFormSuccess(result));
-    } catch (e, st) {
+    } catch (e) {
       emit(AuthFormFailure(e.toString()));
     }
   }
@@ -40,7 +40,7 @@ class AuthFormCubit extends Cubit<AuthFormState> {
         throw Exception(Strings.signupError);
       }
       emit(AuthFormSuccess(result));
-    } catch (e, st) {
+    } catch (e) {
       emit(AuthFormFailure(e.toString()));
     }
   }

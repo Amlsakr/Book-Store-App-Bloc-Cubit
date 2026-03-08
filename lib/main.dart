@@ -10,9 +10,9 @@ import 'core/strings/strings.dart';
 import 'firebase_options.dart';
 
 void main() async {
-  configureDependencies();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  configureDependencies();
   runApp(const MyApp());
 }
 

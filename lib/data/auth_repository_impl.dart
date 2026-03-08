@@ -7,7 +7,9 @@ import '../core/data/api_response.dart';
 
 @LazySingleton(as: AuthRepository)
 class AuthRepoImpl extends AuthRepository {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseAuth _firebaseAuth;
+
+  AuthRepoImpl(this._firebaseAuth);
 
   @override
   Stream<User?> get autState {
@@ -35,14 +37,18 @@ class AuthRepoImpl extends AuthRepository {
 
   @override
   Future<ApiResponse<User?>> signUp(String email, String password) async {
-    final credential = await _firebaseAuth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    if (credential.user != null) {
-      return ApiResponse.success(credential.user);
-    } else {
-      throw Exception(Strings.serverError);
+    try {
+      final credential = await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      if (credential.user != null) {
+        return ApiResponse.success(credential.user);
+      } else {
+        throw Exception(Strings.serverError);
+      }
+    } on FirebaseAuthException catch (error) {
+      throw Exception(error);
     }
   }
 }

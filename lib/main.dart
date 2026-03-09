@@ -5,6 +5,8 @@ import 'package:book_store_app_bloc_cubit/ui/splash/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'core/strings/strings.dart';
 import 'firebase_options.dart';
@@ -13,6 +15,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   configureDependencies();
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: HydratedStorageDirectory(
+      (await getTemporaryDirectory()).path,
+    ),
+  );
   runApp(const MyApp());
 }
 
@@ -35,14 +42,14 @@ class AuthGate extends StatelessWidget {
       child: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is AuthStateUnAuthenticated) {
-            Navigator.of(
-              context,
-            ).push(MaterialPageRoute(builder: (context) => SplashScreen()));
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => SplashScreen()),
+            );
           }
           if (state is AuthStateAuthenticated) {
-            Navigator.of(
-              context,
-            ).push(MaterialPageRoute(builder: (context) => HomeScreen()));
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+            );
           }
         },
         child: Scaffold(body: Center(child: Text(Strings.connectionError))),

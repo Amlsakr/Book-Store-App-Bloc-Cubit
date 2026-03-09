@@ -1,6 +1,5 @@
 import 'package:book_store_app_bloc_cubit/core/di/injection.dart';
 import 'package:book_store_app_bloc_cubit/ui/auth/controllers/auth_form_cubit.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -11,18 +11,30 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:book_store_app_bloc_cubit/core/di/firebase_module.dart'
     as _i685;
-import 'package:book_store_app_bloc_cubit/data/auth_repository_impl.dart'
-    as _i274;
+import 'package:book_store_app_bloc_cubit/data/repositories/auth_repository_impl.dart'
+    as _i797;
+import 'package:book_store_app_bloc_cubit/data/repositories/home_repository_impl.dart'
+    as _i271;
+import 'package:book_store_app_bloc_cubit/data/services/api_service.dart'
+    as _i63;
 import 'package:book_store_app_bloc_cubit/domain/repository/auth_repository.dart'
     as _i910;
+import 'package:book_store_app_bloc_cubit/domain/repository/home_repository.dart'
+    as _i624;
 import 'package:book_store_app_bloc_cubit/domain/use_cases/auth/get_auth_state_use_case.dart'
     as _i205;
 import 'package:book_store_app_bloc_cubit/domain/use_cases/auth/login_use_case.dart'
     as _i1029;
 import 'package:book_store_app_bloc_cubit/domain/use_cases/auth/signup_use_case.dart'
     as _i748;
+import 'package:book_store_app_bloc_cubit/domain/use_cases/home/home_use_case.dart'
+    as _i184;
 import 'package:book_store_app_bloc_cubit/ui/auth/controllers/auth_form_cubit.dart'
     as _i61;
+import 'package:book_store_app_bloc_cubit/ui/favorites/controllers/favorite_book_cubit.dart'
+    as _i86;
+import 'package:book_store_app_bloc_cubit/ui/home/controllers/home_cubit.dart'
+    as _i454;
 import 'package:book_store_app_bloc_cubit/ui/splash/controllers/auth_cubit.dart'
     as _i969;
 import 'package:firebase_auth/firebase_auth.dart' as _i59;
@@ -37,10 +49,19 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final firebaseModule = _$FirebaseModule();
+    gh.factory<_i63.ApiService>(() => _i63.ApiService());
+    gh.factory<_i86.FavoriteBookCubit>(() => _i86.FavoriteBookCubit());
     gh.lazySingleton<_i59.FirebaseAuth>(() => firebaseModule.firebaseAuth);
-    gh.lazySingleton<_i910.AuthRepository>(
-      () => _i274.AuthRepoImpl(gh<_i59.FirebaseAuth>()),
+    gh.lazySingleton<_i624.HomeRepository>(
+      () => _i271.HomeRepoImpl(gh<_i63.ApiService>()),
     );
+    gh.factory<_i184.HomeUseCase>(
+      () => _i184.HomeUseCase(gh<_i624.HomeRepository>()),
+    );
+    gh.lazySingleton<_i910.AuthRepository>(
+      () => _i797.AuthRepoImpl(gh<_i59.FirebaseAuth>()),
+    );
+    gh.factory<_i454.HomeCubit>(() => _i454.HomeCubit(gh<_i184.HomeUseCase>()));
     gh.factory<_i205.GetAuthStateUseCase>(
       () => _i205.GetAuthStateUseCase(gh<_i910.AuthRepository>()),
     );

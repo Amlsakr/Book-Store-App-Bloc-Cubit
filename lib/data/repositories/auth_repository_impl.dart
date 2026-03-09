@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../core/strings/strings.dart';
-import '../../domain/repository/auth_repository.dart';
-import '../core/data/api_response.dart';
+import '../../../core/strings/strings.dart';
+import '../../../domain/repository/auth_repository.dart';
+import '../../core/data/api_response.dart';
 
 @LazySingleton(as: AuthRepository)
 class AuthRepoImpl extends AuthRepository {

@@ -20,4 +20,5 @@ abstract final class Strings {
   static const String emailCannotBeEmpty = "Email cannot be empty";
   static const String passwordCannotBeEmpty = "Password cannot be empty";
   static const String connectionError = "Connection Error";
+  static const String favoritesDB = "favorites";
 }

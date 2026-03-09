@@ -11,8 +11,8 @@ class HomeUseCase {
   HomeUseCase(this._homeRepository);
 
   Future<ApiResponse<List<Book>>> execute() async {
-    var a = await _homeRepository.getListOfBooks();
+    var homeResponse = await _homeRepository.getListOfBooks();
 
-    return a;
+    return homeResponse;
   }
 }

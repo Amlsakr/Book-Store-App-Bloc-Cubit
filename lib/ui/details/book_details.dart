@@ -24,7 +24,7 @@ class BookDetails extends StatelessWidget {
           BlocBuilder<FavoriteBookCubit, FavoriteBookState>(
             builder: (context, state) {
               final favoritesController = context.read<FavoriteBookCubit>();
-              var isFavorite = favoritesController.isFavorite(book.title ?? "");
+              var isFavorite = favoritesController.isFavorite(book.number ?? 0);
               return IconButton(
                 onPressed: () {
                   favoritesController.toggleFavorite(book);

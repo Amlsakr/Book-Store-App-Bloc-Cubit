@@ -13,17 +13,17 @@ class FavoriteBookCubit extends HydratedCubit<FavoriteBookState> {
   FavoriteBookCubit() : super(FavoriteBookInitial());
 
   void toggleFavorite(Book book) {
-    final isFav = isFavorite(book.title ?? "");
+    final isFav = isFavorite(book.number ?? 0);
 
     if (isFav) {
-      removeFavorites(book.title ?? "");
+      removeFavorites(book.number ?? 0);
     } else {
       addBook(book);
     }
   }
 
-  bool isFavorite(String title) {
-    return state.favoritesResponse.any((b) => b.title == title);
+  bool isFavorite(int number) {
+    return state.favoritesResponse.any((b) => b.number == number);
   }
 
   void addBook(Book book) {
@@ -32,9 +32,9 @@ class FavoriteBookCubit extends HydratedCubit<FavoriteBookState> {
     emit(FavoritesBookData(updated));
   }
 
-  void removeFavorites(String title) {
+  void removeFavorites(int number) {
     final updated = List<Book>.from(state.favoritesResponse);
-    updated.removeWhere((book) => book.title == title);
+    updated.removeWhere((book) => book.number == number);
     emit(FavoritesBookData(updated));
   }
 

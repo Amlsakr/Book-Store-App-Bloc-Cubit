@@ -8,9 +8,13 @@ import 'package:mocktail/mocktail.dart';
 class MockHomeUseCase extends Mock implements HomeUseCase {}
 
 void main() {
-  MockHomeUseCase homeUseCase = MockHomeUseCase();
-  HomeCubit homeCubit = HomeCubit(homeUseCase);
+  late MockHomeUseCase homeUseCase;
+  late HomeCubit homeCubit;
 
+  setUp(() {
+    homeUseCase = MockHomeUseCase();
+    homeCubit = HomeCubit(homeUseCase);
+  });
   blocTest<HomeCubit, HomeState>(
     'emits homeDataSuccess when books are fetched successfully',
     build: () {

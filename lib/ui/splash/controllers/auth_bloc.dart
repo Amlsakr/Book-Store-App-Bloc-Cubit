@@ -8,16 +8,19 @@ import 'package:meta/meta.dart';
 
 import '../../../domain/use_cases/auth/get_auth_state_use_case.dart';
 
+part 'auth_event.dart';
 part 'auth_state.dart';
 
 @Injectable()
-class AuthCubit extends Cubit<AuthState> {
+class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final GetAuthStateUseCase _getAuthStateUseCase;
   StreamSubscription? _subscription;
 
-  AuthCubit(this._getAuthStateUseCase) : super(AuthStateInitial());
+  AuthBloc(this._getAuthStateUseCase) : super(AuthStateInitial()) {
+    on<ListenAuthState>(listenAuthState);
+  }
 
-  void listenAuthState() {
+  void listenAuthState(ListenAuthState event, Emitter<AuthState> emit) {
     _subscription = _getAuthStateUseCase.execute().listen((user) {
       if (user == null) {
         emit(AuthStateUnAuthenticated());

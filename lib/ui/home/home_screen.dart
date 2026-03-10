@@ -1,6 +1,6 @@
 import 'package:book_store_app_bloc_cubit/core/di/injection.dart';
-import 'package:book_store_app_bloc_cubit/ui/favorites/controllers/favorite_book_cubit.dart';
-import 'package:book_store_app_bloc_cubit/ui/home/controllers/home_cubit.dart';
+import 'package:book_store_app_bloc_cubit/ui/favorites/controllers/favorite_book_bloc.dart';
+import 'package:book_store_app_bloc_cubit/ui/home/controllers/home_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,8 +20,8 @@ class HomeScreen extends StatelessWidget {
     var currentMode = MediaQuery.platformBrightnessOf(context);
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => getIt<HomeCubit>()..getListOfBooks()),
-        BlocProvider(create: (_) => getIt<FavoriteBookCubit>()),
+        BlocProvider(create: (_) => getIt<HomeBloc>()..add(LoadHomeData())),
+        BlocProvider(create: (_) => getIt<FavoriteBookBloc>()),
       ],
       child: Scaffold(
         appBar: AppBar(
@@ -29,7 +29,7 @@ class HomeScreen extends StatelessWidget {
           backgroundColor: AppColors.chestnutRoseApprox,
           foregroundColor: Colors.white,
           actions: [
-            BlocBuilder<FavoriteBookCubit, FavoriteBookState>(
+            BlocBuilder<FavoriteBookBloc, FavoriteBookState>(
               builder: (context, state) {
                 return IconButton(
                   onPressed: () {
@@ -37,7 +37,7 @@ class HomeScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (_) => BlocProvider.value(
-                          value: context.read<FavoriteBookCubit>(),
+                          value: context.read<FavoriteBookBloc>(),
                           child: FavoritesScreen(),
                         ),
                       ),
@@ -52,7 +52,7 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: currentMode == Brightness.light
             ? Colors.white
             : Colors.black,
-        body: BlocBuilder<HomeCubit, HomeState>(
+        body: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
             switch (state) {
               case HomeLoading():
@@ -72,7 +72,7 @@ class HomeScreen extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (_) => BlocProvider.value(
-                              value: context.read<FavoriteBookCubit>(),
+                              value: context.read<FavoriteBookBloc>(),
                               child: BookDetails(book: book),
                             ),
                           ),

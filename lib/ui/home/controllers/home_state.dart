@@ -1,4 +1,4 @@
-part of 'home_cubit.dart';
+part of 'home_bloc.dart';
 
 @immutable
 sealed class HomeState extends Equatable {

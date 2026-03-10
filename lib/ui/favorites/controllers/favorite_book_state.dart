@@ -1,4 +1,4 @@
-part of 'favorite_book_cubit.dart';
+part of 'favorite_book_bloc.dart';
 
 @immutable
 sealed class FavoriteBookState extends Equatable {

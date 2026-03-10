@@ -9,20 +9,25 @@ import '../../../core/strings/strings.dart';
 import '../../../domain/use_cases/auth/login_use_case.dart';
 import '../../../domain/use_cases/auth/signup_use_case.dart';
 
+
 part 'auth_form_state.dart';
+part 'auth_form_event.dart';
 
 @Injectable()
-class AuthFormCubit extends Cubit<AuthFormState> {
+class AuthFormCubit extends Bloc<AuthFormEvent, AuthFormState> {
   final LoginUseCase _loginUseCase;
   final SignupUseCase _signupUseCase;
 
   AuthFormCubit(this._loginUseCase, this._signupUseCase)
-    : super(AuthFormInitial());
+    : super(AuthFormInitial()) {
+    on<LoginEvent>(login);
+    on<SignupEvent>(signup);
+  }
 
-  Future<void> login(String email, String password) async {
+  Future<void> login(LoginEvent event, Emitter<AuthFormState> emit) async {
     emit(AuthFormLoading());
     try {
-      var result = await _loginUseCase.execute(email, password);
+      var result = await _loginUseCase.execute(event.email, event.password);
       if (result.data == null) {
         throw Exception(Strings.loginError);
       }
@@ -32,10 +37,10 @@ class AuthFormCubit extends Cubit<AuthFormState> {
     }
   }
 
-  Future<void> signup(String email, String password) async {
+  Future<void> signup(SignupEvent event, Emitter<AuthFormState> emit) async {
     emit(AuthFormLoading());
     try {
-      var result = await _signupUseCase.execute(email, password);
+      var result = await _signupUseCase.execute(event.email, event.password);
       if (result.data == null) {
         throw Exception(Strings.signupError);
       }

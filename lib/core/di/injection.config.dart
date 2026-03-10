@@ -29,14 +29,14 @@ import 'package:book_store_app_bloc_cubit/domain/use_cases/auth/signup_use_case.
     as _i748;
 import 'package:book_store_app_bloc_cubit/domain/use_cases/home/home_use_case.dart'
     as _i184;
-import 'package:book_store_app_bloc_cubit/ui/auth/controllers/auth_form_cubit.dart'
-    as _i61;
-import 'package:book_store_app_bloc_cubit/ui/favorites/controllers/favorite_book_cubit.dart'
-    as _i86;
-import 'package:book_store_app_bloc_cubit/ui/home/controllers/home_cubit.dart'
-    as _i454;
-import 'package:book_store_app_bloc_cubit/ui/splash/controllers/auth_cubit.dart'
-    as _i969;
+import 'package:book_store_app_bloc_cubit/ui/auth/controllers/auth_form_bloc.dart'
+    as _i644;
+import 'package:book_store_app_bloc_cubit/ui/favorites/controllers/favorite_book_bloc.dart'
+    as _i464;
+import 'package:book_store_app_bloc_cubit/ui/home/controllers/home_bloc.dart'
+    as _i215;
+import 'package:book_store_app_bloc_cubit/ui/splash/controllers/auth_bloc.dart'
+    as _i546;
 import 'package:firebase_auth/firebase_auth.dart' as _i59;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
@@ -50,18 +50,14 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final firebaseModule = _$FirebaseModule();
     gh.factory<_i63.ApiService>(() => _i63.ApiService());
-    gh.factory<_i86.FavoriteBookCubit>(() => _i86.FavoriteBookCubit());
+    gh.factory<_i464.FavoriteBookBloc>(() => _i464.FavoriteBookBloc());
     gh.lazySingleton<_i59.FirebaseAuth>(() => firebaseModule.firebaseAuth);
-    gh.lazySingleton<_i624.HomeRepository>(
-      () => _i271.HomeRepoImpl(gh<_i63.ApiService>()),
-    );
-    gh.factory<_i184.HomeUseCase>(
-      () => _i184.HomeUseCase(gh<_i624.HomeRepository>()),
-    );
     gh.lazySingleton<_i910.AuthRepository>(
       () => _i797.AuthRepoImpl(gh<_i59.FirebaseAuth>()),
     );
-    gh.factory<_i454.HomeCubit>(() => _i454.HomeCubit(gh<_i184.HomeUseCase>()));
+    gh.lazySingleton<_i624.HomeRepository>(
+      () => _i271.HomeRepoImpl(gh<_i63.ApiService>()),
+    );
     gh.factory<_i205.GetAuthStateUseCase>(
       () => _i205.GetAuthStateUseCase(gh<_i910.AuthRepository>()),
     );
@@ -71,14 +67,18 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i748.SignupUseCase>(
       () => _i748.SignupUseCase(gh<_i910.AuthRepository>()),
     );
-    gh.factory<_i969.AuthCubit>(
-      () => _i969.AuthCubit(gh<_i205.GetAuthStateUseCase>()),
+    gh.factory<_i184.HomeUseCase>(
+      () => _i184.HomeUseCase(gh<_i624.HomeRepository>()),
     );
-    gh.factory<_i61.AuthFormCubit>(
-      () => _i61.AuthFormCubit(
+    gh.factory<_i215.HomeBloc>(() => _i215.HomeBloc(gh<_i184.HomeUseCase>()));
+    gh.factory<_i644.AuthFormCubit>(
+      () => _i644.AuthFormCubit(
         gh<_i1029.LoginUseCase>(),
         gh<_i748.SignupUseCase>(),
       ),
+    );
+    gh.factory<_i546.AuthBloc>(
+      () => _i546.AuthBloc(gh<_i205.GetAuthStateUseCase>()),
     );
     return this;
   }

@@ -1,4 +1,4 @@
-import 'package:book_store_app_bloc_cubit/ui/favorites/controllers/favorite_book_cubit.dart';
+import 'package:book_store_app_bloc_cubit/ui/favorites/controllers/favorite_book_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,13 +21,13 @@ class BookDetails extends StatelessWidget {
         backgroundColor: AppColors.chestnutRoseApprox,
         foregroundColor: Colors.white,
         actions: [
-          BlocBuilder<FavoriteBookCubit, FavoriteBookState>(
+          BlocBuilder<FavoriteBookBloc, FavoriteBookState>(
             builder: (context, state) {
-              final favoritesController = context.read<FavoriteBookCubit>();
+              final favoritesController = context.read<FavoriteBookBloc>();
               var isFavorite = favoritesController.isFavorite(book.number ?? 0);
               return IconButton(
                 onPressed: () {
-                  favoritesController.toggleFavorite(book);
+                  favoritesController.add(ToggleFavoriteBook(book));
                 },
                 icon: isFavorite
                     ? Icon(Icons.bookmark_add, color: Colors.white)

@@ -1,6 +1,6 @@
 import 'package:book_store_app_bloc_cubit/core/di/injection.dart';
 import 'package:book_store_app_bloc_cubit/ui/home/home_screen.dart';
-import 'package:book_store_app_bloc_cubit/ui/splash/controllers/auth_cubit.dart';
+import 'package:book_store_app_bloc_cubit/ui/splash/controllers/auth_bloc.dart';
 import 'package:book_store_app_bloc_cubit/ui/splash/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -38,8 +38,8 @@ class AuthGate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<AuthCubit>()..listenAuthState(),
-      child: BlocListener<AuthCubit, AuthState>(
+      create: (context) => getIt<AuthBloc>()..add(ListenAuthState()),
+      child: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthStateUnAuthenticated) {
             Navigator.of(context).pushReplacement(

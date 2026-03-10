@@ -1,4 +1,4 @@
-part of 'auth_form_cubit.dart';
+part of 'auth_form_bloc.dart';
 
 @immutable
 sealed class AuthFormState extends Equatable {

@@ -1,4 +1,4 @@
-import 'package:book_store_app_bloc_cubit/ui/favorites/controllers/favorite_book_cubit.dart';
+import 'package:book_store_app_bloc_cubit/ui/favorites/controllers/favorite_book_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,7 +24,7 @@ class FavoritesScreen extends StatelessWidget {
       backgroundColor: currentMode == Brightness.light
           ? Colors.white
           : Colors.black,
-      body: BlocBuilder<FavoriteBookCubit, FavoriteBookState>(
+      body: BlocBuilder<FavoriteBookBloc, FavoriteBookState>(
         builder: (context, state) {
           switch (state) {
             case FavoriteBookInitial():
@@ -51,7 +51,7 @@ class FavoritesScreen extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (_) => BlocProvider.value(
-                                    value: context.read<FavoriteBookCubit>(),
+                                    value: context.read<FavoriteBookBloc>(),
                                     child: BookDetails(book: book),
                                   ),
                                 ),

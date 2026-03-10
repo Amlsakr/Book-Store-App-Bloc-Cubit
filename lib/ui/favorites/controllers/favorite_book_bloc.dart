@@ -6,19 +6,26 @@ import 'package:meta/meta.dart';
 import '../../../core/strings/strings.dart';
 import '../../../data/model/book.dart';
 
+part 'favorite_book_event.dart';
 part 'favorite_book_state.dart';
 
 @Injectable()
-class FavoriteBookCubit extends HydratedCubit<FavoriteBookState> {
-  FavoriteBookCubit() : super(FavoriteBookInitial());
+class FavoriteBookBloc
+    extends HydratedBloc<FavoriteBookEvent, FavoriteBookState> {
+  FavoriteBookBloc() : super(FavoriteBookInitial()) {
+    on<ToggleFavoriteBook>(toggleFavorite);
+  }
 
-  void toggleFavorite(Book book) {
-    final isFav = isFavorite(book.number ?? 0);
+  void toggleFavorite(
+    ToggleFavoriteBook event,
+    Emitter<FavoriteBookState> emit,
+  ) {
+    final isFav = isFavorite(event.book.number ?? 0);
 
     if (isFav) {
-      removeFavorites(book.number ?? 0);
+      removeFavorites(event.book.number ?? 0);
     } else {
-      addBook(book);
+      addBook(event.book);
     }
   }
 
